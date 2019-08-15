@@ -1,10 +1,9 @@
 """
-通讯录程序
-实现一个简单的通讯录，包含增删改查
+Address book program
+Implement a simple address book with additions, deletions, and changes
 """
 
 import pickle
-
 
 class Record:
     global_id = 0
@@ -42,46 +41,46 @@ class PhoneBook:
     def change_record(self, name):
         query_ids, query_result = self.query_record(name)
         if len(query_ids) == 0:
-            print("不存在!!!")
+            print("Does not exist")
         else:
             if len(query_result) > 1:
                 for record in query_result:
                     print(record)
-                record_id = input("请选择要修改的id:")
+                record_id = input("Please select the ID to be modified:")
                 if int(record_id) in query_ids:
                     for record in self.data:
                         if int(record_id) == record.record_id:
-                            phone_number = input("请输入修改后的电话号码:")
+                            phone_number = input("Please enter the modified phone number:")
                             record.set_number(phone_number)
-                            print("修改成功")
+                            print("Successfully modified")
                             break
                 else:
-                    print("输入错误!!!")
+                    print("Enter error!!!")
             else:
                 print(query_result[0])
-                phone_number = input("请输入修改后的电话号码:")
+                phone_number = input("Please enter the modified phone number:")
                 query_result[0].set_number(phone_number)
-                print("修改成功")
+                print("Successfully modified")
 
     def delete_record(self, name):
         query_ids, query_result = self.query_record(name)
         if len(query_ids) == 0:
-            print("不存在")
+            print("Does not exist")
         else:
             if len(query_result) > 1:
                 for record in query_result:
                     print(record)
-                record_id = input("请选择要删除的id:")
+                record_id = input("Please select the ID you want to delete")
                 if int(record_id) in query_ids:
                     for record in self.data:
                         if int(record_id) == record.record_id:
                             self.data.remove(record)
                 else:
-                    print("输入错误!!!")
+                    print("Enter error!!!")
             else:
                 print(query_result[0])
                 while True:
-                    s = input("是否确认删除(Y/N):")
+                    s = input("Do you want to confirm the deletion (Y/N):")
                     if s in ["Y", "N"]:
                         if s == "Y":
                             self.data.remove(query_result[0])
@@ -89,7 +88,7 @@ class PhoneBook:
                             pass
                         break
                     else:
-                        print("输入错误!!!")
+                        print("Enter error!!!")
 
     def save(self):
         with open("/tmp/data.dat", "wb") as f:
@@ -106,45 +105,42 @@ if __name__ == "__main__":
         phonebook.load()
         Record.global_id = phonebook.data[-1].record_id
     except Exception:
-        print("数据文件不存在")
-
-
-
+        print("Data file does not exist")
+        
     while True:
         menu = """
-        1. 添加
-        2. 查找
-        3. 删除
-        4. 修改
-        5. 退出
+        1. Add
+        2. Find
+        3. Delete
+        4. Modify
+        5. Exit
         """
         print(menu)
-        s = input("请选择操作:")
+        s = input("Please enter the operation:")
         if s in ["1", "2", "3", "4", "5"]:
 
             if s == "1":
-                name = input("请输入姓名:")
-                phone_number = input("请输入电话:")
+                name = input("Please enter a name: ")
+                phone_number = input("Please enter the phone: ")
                 record = Record(name, phone_number)
                 phonebook.add_record(record)
                 print(record)
             if s == "2":
-                name = input("请输入姓名:")
+                name = input("Please enter a name: ")
                 query_ids, query_result = phonebook.query_record(name)
                 if len(query_ids) == 0:
-                    print("不存在")
+                    print("Does not exist")
                 else:
                     for record in query_result:
                         print("{}\t{}\t{}".format(record.record_id, record.name, record.phone_number))
             if s == "3":
-                name = input("请输入姓名:")
+                name = input("Please enter a name: ")
                 phonebook.delete_record(name)
             if s == "4":
-                name = input("请输入姓名:")
+                name = input("Please enter a name: ")
                 phonebook.change_record(name)
             if s == "5":
-                phonebook.save()
                 break
         else:
-            print("输入错误")
+            print("Input error!!!")
             continue
