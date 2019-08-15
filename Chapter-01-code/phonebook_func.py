@@ -2,6 +2,8 @@
 Testing github
 龙腾测试dev课程，通讯录程序
 实现一个简单的通讯录，包含增删改查
+
+Second clone
 """
 record_list = []
 record_id = 0
