@@ -1,5 +1,5 @@
 """
-取出嵌套列表内的所有元素
+Take out all the elements in the nested list
 """
 
 
