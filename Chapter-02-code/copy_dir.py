@@ -1,10 +1,12 @@
-import os, sys
+import os
+import sys
 maxfileload = 1000000
 blksize = 1024 * 50
 
+
 def copyfile(pathFrom, pathTo, maxfileload=maxfileload):
     """
-    将文件逐字节从pathFrom复制到pathTo，使用二进制模式读写
+   Copy files from pathFrom to pathTo byte by byte, read and write using binary mode
     """
 
     if os.path.getsize(pathFrom) <= maxfileload:
@@ -21,7 +23,7 @@ def copyfile(pathFrom, pathTo, maxfileload=maxfileload):
 
 def copytree(dirFrom, dirTo, verbose=0):
     """
-    拷贝目录
+    Copy directory
     """
     fcount = dcount = 0
     for filename in os.listdir(dirFrom):
@@ -30,31 +32,32 @@ def copytree(dirFrom, dirTo, verbose=0):
         if not os.path.isdir(pathFrom):
             try:
                 if verbose > 1:
-                    print("拷贝", pathFrom, "到", pathTo)
+                    print("copy", pathFrom, "to", pathTo)
                 copyfile(pathFrom, pathTo)
                 fcount += 1
             except:
-                print("拷贝错误", pathFrom, "到", pathTo)
+                print("copy error", pathFrom, "to", pathTo)
         else:
             if verbose:
                 print('copying dir', pathFrom, 'to', pathTo)
             try:
-                os.mkdir(pathTo)  #创建子目录
-                below = copytree(pathFrom, pathTo, verbose) # 递归
+                os.mkdir(pathTo)  # create a subdirectory
+                below = copytree(pathFrom, pathTo, verbose) 
                 fcount += below[0]
                 dcount += below[1]
                 dcount += 1
             except:
-                print("创建错误", pathFrom, "到", pathTo)
+                print("create error", pathFrom, "to", pathTo)
                 print(sys.exc_info()[0], sys.exc_info()[1])
     return fcount, dcount
+
 
 if __name__ == "__main__":
     dirForm = r"d:\BaiduYunDownload"
     dirTo = r"d:\BaiduYunDownload.bak"
     os.mkdir(dirTo)
     fcount, dcount = copytree(dirForm, dirTo, verbose=2)
-    print("拷贝目录: %d;拷贝文件: %d" %  (fcount, dcount))
+    print("copy directory: %d;copy file: %d" % (fcount, dcount))
 
 
 
